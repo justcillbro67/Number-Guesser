@@ -21,11 +21,10 @@ body {
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   max-width: 500px;
   width: 100%;
-  position: relative;
 }
 
 .username-box {
-  position: absolute;
+  position: fixed;
   top: 20px;
   left: 20px;
   background: #f8f9fa;
@@ -34,6 +33,7 @@ body {
   padding: 12px 15px;
   width: 200px;
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+  z-index: 1000;
 }
 
 .username-box label {
@@ -85,7 +85,6 @@ h1 {
 .home-screen {
   text-align: center;
   animation: fadeIn 0.3s ease-in;
-  margin-top: 40px;
 }
 
 .home-screen h1 {
