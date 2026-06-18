@@ -1,3 +1,16 @@
+const firebaseConfig = {
+  apiKey: "AIzaSyDWokHzeka8iE7-TPKORLIDtAo0Fhk3HuI",
+  authDomain: "number-guesser-f489b.firebaseapp.com",
+  projectId: "number-guesser-f489b",
+  storageBucket: "number-guesser-f489b.firebasestorage.app",
+  messagingSenderId: "46887676471",
+  appId: "1:46887676471:web:f6d50890c14ba2b5f8adb2",
+  measurementId: "G-9LS7QKY2KZ"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
 let secretNumber = 0;
 let attempts = 0;
 let guesses = [];
@@ -31,6 +44,9 @@ const attemptsEl = document.getElementById('attempts');
 const guessList = document.getElementById('guessList');
 const historyDiv = document.getElementById('history');
 const modeTitle = document.getElementById('modeTitle');
+
+// Set up live leaderboard listener once on load
+renderLeaderboard();
 
 // Event Listeners
 usernameInput.addEventListener('keypress', (e) => {
@@ -173,11 +189,11 @@ function makeGuess() {
   if (guessNum === secretNumber) {
     messageEl.textContent = `🎉 Good job ${username}! You got it! The number was ${secretNumber}. It took ${attempts} attempts.`;
     messageEl.className = 'message correct';
-    endGame(`🎉 Good job ${username}!\nThe number was ${secretNumber}.\nIt took ${attempts} attempts.`);
-  } else if (attempts >= 10) {
+    endGame(`🎉 Good job ${username}!\nThe number was ${secretNumber}.\nIt took ${attempts} attempts.`, true);
+  } else if (attempts >= (currentMode === 'normal' ? 20 : 10)) {
     messageEl.textContent = `💔 Game Over! The number was ${secretNumber}. You ran out of attempts!`;
     messageEl.className = 'message hint';
-    endGame(`💔 Game Over ${username}!\nThe secret number was ${secretNumber}.\nYou used all 10 attempts!`);
+    endGame(`💔 Game Over ${username}!\nThe secret number was ${secretNumber}.\nYou used all ${currentMode === 'normal' ? 20 : 10} attempts!`);
   } else if (guessNum < secretNumber) {
     messageEl.textContent = '📈 Too low! Try a higher number.';
     messageEl.className = 'message hint';
@@ -198,7 +214,50 @@ function updateHistory() {
   }
 }
 
-function endGame(message) {
+function saveScore(name, attempts, modeLabel) {
+  db.collection('scores').add({
+    name,
+    attempts,
+    mode: modeLabel,
+    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+  });
+}
+
+function renderLeaderboard() {
+  const leaderboardEl = document.getElementById('leaderboard');
+  const leaderboardList = document.getElementById('leaderboardList');
+
+  db.collection('scores')
+    .orderBy('attempts', 'asc')
+    .limit(5)
+    .onSnapshot((snapshot) => {
+      if (snapshot.empty) {
+        leaderboardEl.classList.add('hidden');
+        return;
+      }
+
+      leaderboardEl.classList.remove('hidden');
+      const medals = ['🥇', '🥈', '🥉'];
+      leaderboardList.innerHTML = snapshot.docs.map((doc, i) => {
+        const s = doc.data();
+        return `
+          <li class="leaderboard-entry">
+            <span class="lb-rank">${medals[i] || `${i + 1}.`}</span>
+            <span class="lb-name">${s.name}</span>
+            <span class="lb-attempts">${s.attempts} attempts</span>
+            <span class="lb-mode">${s.mode}</span>
+          </li>
+        `;
+      }).join('');
+    });
+}
+
+function endGame(message, won = false) {
+  if (won) {
+    const modeLabel = currentMode === 'normal' ? 'Normal' : `Range ${currentDifficulty}`;
+    saveScore(username, attempts, modeLabel);
+    renderLeaderboard();
+  }
   gameActive = false;
   gameContainer.classList.add('hidden');
   gameOverDiv.classList.remove('hidden');
