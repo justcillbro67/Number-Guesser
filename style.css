@@ -21,6 +21,47 @@ body {
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   max-width: 500px;
   width: 100%;
+  position: relative;
+}
+
+.username-box {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: #f8f9fa;
+  border: 2px solid #667eea;
+  border-radius: 12px;
+  padding: 12px 15px;
+  width: 200px;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.username-box label {
+  display: block;
+  font-size: 0.85em;
+  font-weight: 600;
+  color: #667eea;
+  margin-bottom: 6px;
+}
+
+.username-box input {
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95em;
+  background: white;
+  transition: all 0.3s;
+}
+
+.username-box input:focus {
+  outline: none;
+  background: #f0f0ff;
+  box-shadow: 0 0 8px rgba(102, 126, 234, 0.4);
+}
+
+.username-box input::placeholder {
+  color: #ccc;
 }
 
 h1 {
@@ -44,31 +85,7 @@ h1 {
 .home-screen {
   text-align: center;
   animation: fadeIn 0.3s ease-in;
-}
-
-.username-area {
-  margin-bottom: 20px;
-}
-
-#usernameInput {
-  padding: 10px 15px;
-  border: 2px solid #667eea;
-  border-radius: 8px;
-  font-size: 1em;
-  text-align: center;
-  width: 100%;
-  max-width: 250px;
-  transition: border-color 0.3s;
-}
-
-#usernameInput:focus {
-  outline: none;
-  border-color: #5568d3;
-  box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
-}
-
-#usernameInput::placeholder {
-  color: #bbb;
+  margin-top: 40px;
 }
 
 .home-screen h1 {
