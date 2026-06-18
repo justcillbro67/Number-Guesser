@@ -36,6 +36,14 @@ body {
   z-index: 1000;
 }
 
+.username-box label {
+  display: block;
+  font-size: 0.85em;
+  font-weight: 600;
+  color: #667eea;
+  margin-bottom: 6px;
+}
+
 .username-box input {
   width: 100%;
   padding: 8px 10px;
