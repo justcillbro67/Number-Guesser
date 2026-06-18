@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Number Guesser Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div id="homeScreen" class="home-screen">
+      <h1>🎯 Number Guesser</h1>
+      <p class="subtitle">Choose a game mode</p>
+      <button id="normalModeBtn" class="btn btn-start">Normal Mode (1-100)</button>
+      <button id="rangeModeBtn" class="btn btn-start">Range Mode</button>
+    </div>
+
+    <div id="difficultyScreen" class="difficulty-screen hidden">
+      <h1>🎯 Number Guesser</h1>
+      <p class="subtitle">Choose a difficulty level</p>
+      <button id="easyBtn" class="btn btn-difficulty btn-easy">🟢 Easy (Large Range)</button>
+      <button id="mediumBtn" class="btn btn-difficulty btn-medium">🟡 Medium (Normal Range)</button>
+      <button id="hardBtn" class="btn btn-difficulty btn-hard">🔴 Hard (Small Range)</button>
+    </div>
+
+    <div id="gameScreen" class="game-screen hidden">
+      <div class="top-bar">
+        <h1>🎯 Number Guesser</h1>
+        <button id="homeBtn" class="btn btn-home">🏠 Home</button>
+      </div>
+      <p class="subtitle" id="modeTitle">Can you guess the secret number?</p>
+      
+      <div class="game-area">
+        <button id="startBtn" class="btn btn-start">Start New Game</button>
+      
+      <div id="gameContainer" class="hidden">
+        <div class="input-area">
+          <input 
+            type="number" 
+            id="guessInput" 
+            min="1" 
+            max="100" 
+            placeholder="Enter your guess (1-100)"
+          >
+          <button id="guessBtn" class="btn btn-guess">Guess</button>
+        </div>
+
+        <div class="feedback">
+          <p id="message" class="message"></p>
+          <p id="attempts" class="attempts"></p>
+        </div>
+
+        <div id="history" class="history hidden">
+          <h3>Your Guesses:</h3>
+          <ul id="guessList"></ul>
+        </div>
+      </div>
+
+      <div id="gameOver" class="game-over hidden">
+        <h2>Game Over!</h2>
+        <p id="finalMessage"></p>
+        <button id="playAgainBtn" class="btn btn-start">Play Again</button>
+        <button id="homeBtn2" class="btn btn-home">🏠 Home</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
