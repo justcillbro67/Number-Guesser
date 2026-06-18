@@ -6,11 +6,13 @@ let currentMode = null; // 'normal' or 'range'
 let currentDifficulty = null; // 'easy', 'medium', 'hard'
 let rangeMin = 1;
 let rangeMax = 100;
+let username = ''; // Store username
 
 // DOM Elements
 const homeScreen = document.getElementById('homeScreen');
 const difficultyScreen = document.getElementById('difficultyScreen');
 const gameScreen = document.getElementById('gameScreen');
+const usernameInput = document.getElementById('usernameInput');
 const normalModeBtn = document.getElementById('normalModeBtn');
 const rangeModeBtn = document.getElementById('rangeModeBtn');
 const easyBtn = document.getElementById('easyBtn');
@@ -31,6 +33,11 @@ const historyDiv = document.getElementById('history');
 const modeTitle = document.getElementById('modeTitle');
 
 // Event Listeners
+usernameInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    username = usernameInput.value.trim() || 'Player';
+  }
+});
 normalModeBtn.addEventListener('click', () => selectMode('normal'));
 rangeModeBtn.addEventListener('click', () => selectMode('range'));
 easyBtn.addEventListener('click', () => selectDifficulty('easy'));
@@ -46,6 +53,7 @@ guessInput.addEventListener('keypress', (e) => {
 });
 
 function selectMode(mode) {
+  username = usernameInput.value.trim() || 'Player'; // Capture username
   currentMode = mode;
   
   if (mode === 'normal') {
@@ -84,6 +92,8 @@ function goHome() {
   currentMode = null;
   currentDifficulty = null;
   gameActive = false;
+  username = ''; // Reset username
+  usernameInput.value = ''; // Clear input field
 }
 
 function generateRangeMode() {
@@ -161,13 +171,21 @@ function makeGuess() {
   attemptsEl.textContent = `Attempts: ${attempts}`;
 
   if (guessNum === secretNumber) {
-    messageEl.textContent = `🎉 You got it! The number was ${secretNumber}. It took ${attempts} attempts.`;
+    messageEl.textContent = `🎉 Good job ${username}! You got it! The number was ${secretNumber}. It took ${attempts} attempts.`;
     messageEl.className = 'message correct';
-    endGame(`🎉 You got it! The number was ${secretNumber}.\nIt took ${attempts} attempts.`);
-      } else if (attempts >= 10) {
-        messageEl.textContent = `💔 Game Over! The number was ${secretNumber}. You ran out of attempts!`;
-        messageEl.className = 'message hint';
-        endGame(`💔 Game Over!\nThe secret number was ${secretNumber}.\nYou used all 10 attempts!`);
+    endGame(`🎉 Good job ${username}!\nThe number was ${secretNumber}.\nIt took ${attempts} attempts.`);
+  } else if (attempts >= 10) {
+    messageEl.textContent = `💔 Game Over! The number was ${secretNumber}. You ran out of attempts!`;
+    messageEl.className = 'message hint';
+    endGame(`💔 Game Over ${username}!\nThe secret number was ${secretNumber}.\nYou used all 10 attempts!`);
+  } else if (guessNum < secretNumber) {
+    messageEl.textContent = '📈 Too low! Try a higher number.';
+    messageEl.className = 'message hint';
+  } else {
+    messageEl.textContent = '📉 Too high! Try a lower number.';
+    messageEl.className = 'message hint';
+  }
+
   updateHistory();
   guessInput.value = '';
   guessInput.focus();
