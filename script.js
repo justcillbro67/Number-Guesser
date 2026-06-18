@@ -164,14 +164,10 @@ function makeGuess() {
     messageEl.textContent = `🎉 You got it! The number was ${secretNumber}. It took ${attempts} attempts.`;
     messageEl.className = 'message correct';
     endGame(`🎉 You got it! The number was ${secretNumber}.\nIt took ${attempts} attempts.`);
-  } else if (guessNum < secretNumber) {
-    messageEl.textContent = '📈 Too low! Try a higher number.';
-    messageEl.className = 'message hint';
-  } else {
-    messageEl.textContent = '📉 Too high! Try a lower number.';
-    messageEl.className = 'message hint';
-  }
-
+      } else if (attempts >= 10) {
+        messageEl.textContent = `💔 Game Over! The number was ${secretNumber}. You ran out of attempts!`;
+        messageEl.className = 'message hint';
+        endGame(`💔 Game Over!\nThe secret number was ${secretNumber}.\nYou used all 10 attempts!`);
   updateHistory();
   guessInput.value = '';
   guessInput.focus();
