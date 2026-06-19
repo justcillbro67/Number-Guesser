@@ -220,6 +220,10 @@ function saveScore(name, attempts, modeLabel) {
     attempts,
     mode: modeLabel,
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
+  }).then(() => {
+    console.log('Score saved!');
+  }).catch((err) => {
+    console.error('saveScore failed:', err);
   });
 }
 
@@ -231,6 +235,7 @@ function renderLeaderboard() {
     .orderBy('attempts', 'asc')
     .limit(5)
     .onSnapshot((snapshot) => {
+      console.log('Leaderboard snapshot, docs:', snapshot.size);
       if (snapshot.empty) {
         leaderboardEl.classList.add('hidden');
         return;
@@ -249,6 +254,8 @@ function renderLeaderboard() {
           </li>
         `;
       }).join('');
+    }, (err) => {
+      console.error('Leaderboard listener failed:', err);
     });
 }
 
