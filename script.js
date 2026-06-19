@@ -235,13 +235,11 @@ function renderLeaderboard() {
     .orderBy('attempts', 'asc')
     .limit(5)
     .onSnapshot((snapshot) => {
-      console.log('Leaderboard snapshot, docs:', snapshot.size);
+      leaderboardEl.classList.remove('hidden');
       if (snapshot.empty) {
-        leaderboardEl.classList.add('hidden');
+        leaderboardList.innerHTML = '<li class="leaderboard-entry"><span class="lb-name">No scores yet — be the first!</span></li>';
         return;
       }
-
-      leaderboardEl.classList.remove('hidden');
       const ordinals = ['1st', '2nd', '3rd', '4th', '5th'];
       leaderboardList.innerHTML = snapshot.docs.map((doc, i) => {
         const s = doc.data();
