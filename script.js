@@ -242,12 +242,12 @@ function renderLeaderboard() {
       }
 
       leaderboardEl.classList.remove('hidden');
-      const medals = ['🥇', '🥈', '🥉'];
+      const ordinals = ['1st', '2nd', '3rd', '4th', '5th'];
       leaderboardList.innerHTML = snapshot.docs.map((doc, i) => {
         const s = doc.data();
         return `
           <li class="leaderboard-entry">
-            <span class="lb-rank">${medals[i] || `${i + 1}.`}</span>
+            <span class="lb-rank">${ordinals[i]}</span>
             <span class="lb-name">${s.name}</span>
             <span class="lb-attempts">${s.attempts} attempts</span>
             <span class="lb-mode">${s.mode}</span>
