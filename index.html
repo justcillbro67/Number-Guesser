@@ -23,6 +23,11 @@
       <p class="subtitle">Choose a game mode</p>
       <button id="normalModeBtn" class="btn btn-start">Normal Mode (1-100)</button>
       <button id="rangeModeBtn" class="btn btn-start">Range Mode</button>
+
+      <div id="leaderboard" class="leaderboard hidden">
+        <h3>🏆 Leaderboard</h3>
+        <ul id="leaderboardList"></ul>
+      </div>
     </div>
 
     <div id="difficultyScreen" class="difficulty-screen hidden">
@@ -75,6 +80,8 @@
     </div>
   </div>
 
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
