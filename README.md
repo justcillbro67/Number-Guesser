@@ -50,7 +50,9 @@ Number-Guesser/
 
 ## 💻 Installation
 
-No installation needed! Just:
+No installation needed! Play it live here: **https://justcillbro67.github.io/Number-Guesser/**
+
+Or run it locally:
 1. Clone the repository
 2. Open `game.html` in any modern browser
 3. Start playing!
