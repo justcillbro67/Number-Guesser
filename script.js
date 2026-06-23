@@ -85,7 +85,18 @@ guessInput.addEventListener('keypress', (e) => {
 });
 
 function selectMode(mode) {
-  username = usernameInput.value.trim() || 'Player'; // Capture username
+  username = usernameInput.value.trim();
+  if (!username) {
+    const err = document.getElementById('usernameError');
+    err.classList.remove('hidden');
+    usernameInput.classList.add('input-error');
+    usernameInput.focus();
+    setTimeout(() => {
+      err.classList.add('hidden');
+      usernameInput.classList.remove('input-error');
+    }, 2500);
+    return;
+  }
   currentMode = mode;
   
   if (mode === 'normal') {
