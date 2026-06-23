@@ -360,6 +360,21 @@ input[type="number"]:focus {
   white-space: nowrap;
 }
 
+.lb-delete {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 0.8em;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.lb-delete:hover {
+  background: #c0392b;
+}
+
 @media (max-width: 480px) {
   .container {
     padding: 20px;

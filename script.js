@@ -15,11 +15,13 @@ let secretNumber = 0;
 let attempts = 0;
 let guesses = [];
 let gameActive = false;
-let currentMode = null; // 'normal' or 'range'
-let currentDifficulty = null; // 'easy', 'medium', 'hard'
+let currentMode = null;
+let currentDifficulty = null;
 let rangeMin = 1;
 let rangeMax = 100;
-let username = ''; // Store username
+let username = '';
+let adminMode = false;
+let adminClickCount = 0;
 
 // DOM Elements
 const homeScreen = document.getElementById('homeScreen');
@@ -47,6 +49,19 @@ const modeTitle = document.getElementById('modeTitle');
 
 // Set up live leaderboard listener once on load
 renderLeaderboard();
+
+// Secret admin unlock: click leaderboard title 5 times
+document.querySelector('#leaderboard h3').addEventListener('click', () => {
+  adminClickCount++;
+  if (adminClickCount >= 5) {
+    adminClickCount = 0;
+    const pwd = prompt('Admin password:');
+    if (pwd === '400070787') {
+      adminMode = !adminMode;
+      renderLeaderboard();
+    }
+  }
+});
 
 // Event Listeners
 usernameInput.addEventListener('keypress', (e) => {
@@ -243,15 +258,27 @@ function renderLeaderboard() {
       const ordinals = ['1st', '2nd', '3rd', '4th', '5th'];
       leaderboardList.innerHTML = snapshot.docs.map((doc, i) => {
         const s = doc.data();
+        const deleteBtn = adminMode
+          ? `<button class="lb-delete" data-id="${doc.id}">✕</button>`
+          : '';
         return `
           <li class="leaderboard-entry">
             <span class="lb-rank">${ordinals[i]}</span>
             <span class="lb-name">${s.name}</span>
             <span class="lb-attempts">${s.attempts} attempts</span>
             <span class="lb-mode">${s.mode}</span>
+            ${deleteBtn}
           </li>
         `;
       }).join('');
+
+      if (adminMode) {
+        leaderboardList.querySelectorAll('.lb-delete').forEach(btn => {
+          btn.addEventListener('click', () => {
+            db.collection('scores').doc(btn.dataset.id).delete();
+          });
+        });
+      }
     }, (err) => {
       console.error('Leaderboard listener failed:', err);
     });
