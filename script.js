@@ -58,6 +58,7 @@ document.querySelector('#leaderboard h3').addEventListener('click', () => {
     const pwd = prompt('Admin password:');
     if (pwd === '400070787') {
       adminMode = !adminMode;
+      document.getElementById('adminBadge').classList.toggle('hidden', !adminMode);
       renderLeaderboard();
     }
   }
